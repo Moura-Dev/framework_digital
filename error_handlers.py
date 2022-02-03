@@ -12,4 +12,4 @@ def not_found(e):
 
 @app.errorhandler(500)
 def internal_error(e):
-    return {"Message": "Internal Error"}, 500
+    return jsonify({"Message": "Internal Error"}, 500)
