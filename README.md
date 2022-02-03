@@ -39,7 +39,8 @@ Basic Auth
 Username: framework_digital
 Password: secret
 
-Return token
+Return 
+{token: token}
 ```
 
 
