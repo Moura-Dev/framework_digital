@@ -12,5 +12,6 @@ def create_app(app_name="framework", test_config=False, production_conf=False):
         app.config.from_object("config.RunConfig")
 
     app.register_blueprint(framework_blueprint)
+    import error_handlers
 
     return app

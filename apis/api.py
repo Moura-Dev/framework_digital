@@ -1,9 +1,11 @@
-import logging
-import requests
 import datetime
+import logging
+
 import jwt
+import requests
 from flask import Blueprint, current_app, jsonify, request, make_response
-from apis.decorator import token_required
+
+from decorator import token_required
 
 framework_blueprint = Blueprint("framework", __name__)
 
@@ -37,19 +39,21 @@ def framework_request():
 
 @framework_blueprint.route("/login/", methods=["GET"])
 def login():
-    try:
-        auth = request.authorization
+    auth = request.authorization
 
-        if auth and auth.username == "framework_digital" and auth.password == "secret":
-            token = jwt.encode(
-                {
-                    "user": auth.username,
-                    "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=5),
-                },
-                current_app.config["SECRET_KEY"],
-                algorithm="HS256",
-            )
-            return make_response({"token": token})
+    if auth and auth.username == "framework_digital" and auth.password == "secret":
+        token = jwt.encode(
+            {
+                "user": auth.username,
+                "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=5),
+            },
+            current_app.config["SECRET_KEY"],
+            algorithm="HS256",
+        )
+        return make_response({"token": token})
 
-    except:
-        return make_response({"UnAuthorized": "Login Required"}, 401)
+    return make_response(
+        "Nao foi possivel verificar!",
+        401,
+        {"WWW-Authenticate": 'Basic realm="Login Required"'},
+    )

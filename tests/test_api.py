@@ -1,9 +1,10 @@
-import pytest
-from flask.testing import FlaskClient
-from base64 import b64encode
-import requests
-import sys
 import os
+import sys
+from base64 import b64encode
+
+import pytest
+import requests
+from flask.testing import FlaskClient
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../"))
 
@@ -32,7 +33,7 @@ def client(flask_app):
     app.test_client_class = FlaskClient
     return app.test_client()
 
-def test_json_place_holder(client):
+def test_json_place_holder():
     response = requests.get("https://jsonplaceholder.typicode.com/todos")
     assert response.status_code == 200
     assert response.reason == "OK"
@@ -76,9 +77,9 @@ def test_login(client):
 
 
 def test_login_fail(client):
-    with pytest.raises(Exception):
-        credentials = b64encode(b"secret:secret").decode('utf-8')
-        response = client.get("/login/", headers={"Authorization": f"Basic {credentials}"})
-        assert response.status_code == 401
-        assert response.status == "401 UNAUTHORIZED"
+
+    credentials = b64encode(b"secret:secret").decode('utf-8')
+    response = client.get("/login/", headers={"Authorization": f"Basic {credentials}"})
+    assert response.status_code == 401
+    assert response.status == "401 UNAUTHORIZED"
 
