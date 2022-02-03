@@ -1,0 +1,15 @@
+version: '3.2'
+
+services:
+  sensors:
+    build:
+      context: .
+    environment:
+      SECRET_KEY: "secretkey"
+    ports:
+      - "5000:5000"
+    volumes:
+      - type: bind
+        source: .
+        target: /app
+
